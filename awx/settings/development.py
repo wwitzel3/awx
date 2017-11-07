@@ -45,7 +45,7 @@ TEMPLATE_LOADERS = (
 )
 
 # Disable capturing all SQL queries when running celeryd in development.
-if 'celeryd' in sys.argv:
+if 'celery' in sys.argv:
     SQL_DEBUG = False
 
 CELERYD_HIJACK_ROOT_LOGGER = False
@@ -135,7 +135,7 @@ CELERYBEAT_SCHEDULE['isolated_heartbeat'] = {
 
 # Supervisor service name dictionary used for programatic restart
 SERVICE_NAME_DICT = {
-    "celery": "celeryd",
+    "celery": "celery",
     "callback": "receiver",
     "runworker": "channels",
     "uwsgi": "uwsgi",

@@ -27,7 +27,7 @@ except Exception:
     psutil = None
 
 # Celery
-from celery import Task, task
+from celery import Task, shared_task
 from celery.signals import celeryd_init, worker_process_init, worker_shutdown
 
 # Django
@@ -131,7 +131,7 @@ def inform_cluster_of_shutdown(*args, **kwargs):
         logger.exception('Encountered problem with normal shutdown signal.')
 
 
-@task(queue='tower_broadcast_all', bind=True, base=LogErrorsTask)
+@shared_task(queue='tower_broadcast_all', bind=True, base=LogErrorsTask)
 def handle_setting_changes(self, setting_keys):
     orig_len = len(setting_keys)
     for i in range(orig_len):
@@ -148,7 +148,7 @@ def handle_setting_changes(self, setting_keys):
             break
 
 
-@task(queue='tower', base=LogErrorsTask)
+@shared_task(queue='tower', base=LogErrorsTask)
 def send_notifications(notification_list, job_id=None):
     if not isinstance(notification_list, list):
         raise TypeError("notification_list should be of type list")
@@ -172,7 +172,7 @@ def send_notifications(notification_list, job_id=None):
             notification.save()
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
 def run_administrative_checks(self):
     logger.warn("Running administrative checks.")
     if not settings.TOWER_ADMIN_ALERTS:
@@ -194,13 +194,13 @@ def run_administrative_checks(self):
                   fail_silently=True)
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
 def cleanup_authtokens(self):
     logger.warn("Cleaning up expired authtokens.")
     AuthToken.objects.filter(expires__lt=now()).delete()
 
 
-@task(bind=True, base=LogErrorsTask)
+@shared_task(bind=True, base=LogErrorsTask)
 def purge_old_stdout_files(self):
     nowtime = time.time()
     for f in os.listdir(settings.JOBOUTPUT_ROOT):
@@ -209,7 +209,7 @@ def purge_old_stdout_files(self):
             logger.info("Removing {}".format(os.path.join(settings.JOBOUTPUT_ROOT,f)))
 
 
-@task(bind=True, base=LogErrorsTask)
+@shared_task(bind=True, base=LogErrorsTask)
 def cluster_node_heartbeat(self):
     logger.debug("Cluster node heartbeat task.")
     nowtime = now()
@@ -262,7 +262,7 @@ def cluster_node_heartbeat(self):
                 logger.exception('Error marking {} as lost'.format(other_inst.hostname))
 
 
-@task(bind=True, base=LogErrorsTask)
+@shared_task(bind=True, base=LogErrorsTask)
 def awx_isolated_heartbeat(self):
     local_hostname = settings.CLUSTER_HOST_ID
     logger.debug("Controlling node checking for any isolated management tasks.")
@@ -286,7 +286,7 @@ def awx_isolated_heartbeat(self):
         isolated_manager.IsolatedManager.health_check(isolated_instance_qs, awx_application_version)
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
 def awx_periodic_scheduler(self):
     run_now = now()
     state = TowerScheduleState.get_solo()
@@ -340,7 +340,7 @@ def _send_notification_templates(instance, status_str):
                                      job_id=instance.id)
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
 def handle_work_success(self, result, task_actual):
     try:
         instance = UnifiedJob.get_instance_by_type(task_actual['type'], task_actual['id'])
@@ -356,7 +356,7 @@ def handle_work_success(self, result, task_actual):
     run_job_complete.delay(instance.id)
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
 def handle_work_error(self, task_id, subtasks=None):
     logger.debug('Executing error task id %s, subtasks: %s' % (str(self.request.id), str(subtasks)))
     first_instance = None
@@ -399,7 +399,7 @@ def handle_work_error(self, task_id, subtasks=None):
         pass
 
 
-@task(queue='tower', base=LogErrorsTask)
+@shared_task(queue='tower', base=LogErrorsTask)
 def update_inventory_computed_fields(inventory_id, should_update_hosts=True):
     '''
     Signal handler and wrapper around inventory.update_computed_fields to
@@ -419,7 +419,7 @@ def update_inventory_computed_fields(inventory_id, should_update_hosts=True):
         raise
 
 
-@task(queue='tower', base=LogErrorsTask)
+@shared_task(queue='tower', base=LogErrorsTask)
 def update_host_smart_inventory_memberships():
     try:
         with transaction.atomic():
@@ -435,7 +435,7 @@ def update_host_smart_inventory_memberships():
         return
 
 
-@task(bind=True, queue='tower', base=LogErrorsTask, max_retries=5)
+@shared_task(bind=True, queue='tower', base=LogErrorsTask, max_retries=5)
 def delete_inventory(self, inventory_id, user_id):
     # Delete inventory as user
     if user_id is None:
