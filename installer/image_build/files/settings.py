@@ -79,7 +79,7 @@ LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 DATABASES = {
     'default': {
         'ATOMIC_REQUESTS': True,
-        'ENGINE': 'transaction_hooks.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': os.getenv("DATABASE_NAME", None),
         'USER': os.getenv("DATABASE_USER", None),
         'PASSWORD': os.getenv("DATABASE_PASSWORD", None),
