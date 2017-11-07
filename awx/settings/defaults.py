@@ -5,7 +5,6 @@ import os
 import re  # noqa
 import sys
 import ldap
-import djcelery
 from datetime import timedelta
 
 from kombu import Queue, Exchange
@@ -210,13 +209,14 @@ TEMPLATE_CONTEXT_PROCESSORS = (  # NOQA
     'social.apps.django_app.context_processors.login_redirect',
 )
 
-MIDDLEWARE_CLASSES = (  # NOQA
+MIDDLEWARE = (  # NOQA
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'awx.main.middleware.ActivityStreamMiddleware',
     'awx.sso.middleware.SocialAuthMiddleware',
     'crum.CurrentRequestUserMiddleware',
@@ -248,8 +248,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'django_extensions',
-    'djcelery',
-    'kombu.transport.django',
+    'django_celery_results',
     'channels',
     'polymorphic',
     'taggit',
@@ -410,9 +409,6 @@ DEVSERVER_DEFAULT_PORT = '8013'
 # Set default ports for live server tests.
 os.environ.setdefault('DJANGO_LIVE_TEST_SERVER_ADDRESS', 'localhost:9013-9199')
 
-# Initialize Django-Celery.
-djcelery.setup_loader()
-
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_EVENT_QUEUE_TTL = 5
 CELERY_DEFAULT_QUEUE = 'tower'
@@ -425,7 +421,7 @@ CELERYD_TASK_SOFT_TIME_LIMIT = None
 CELERYD_POOL_RESTARTS = True
 CELERYBEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
 CELERYBEAT_MAX_LOOP_INTERVAL = 60
-CELERY_RESULT_BACKEND = 'djcelery.backends.database:DatabaseBackend'
+CELERY_RESULT_BACKEND = 'django-db'
 CELERY_IMPORTS = ('awx.main.scheduler.tasks',)
 CELERY_QUEUES = (
     Queue('default', Exchange('default'), routing_key='default'),

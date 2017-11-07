@@ -25,7 +25,7 @@ from django.contrib.contenttypes.models import ContentType
 from polymorphic.models import PolymorphicModel
 
 # Django-Celery
-from djcelery.models import TaskMeta
+from django_celery_results.models import TaskResult
 
 # AWX
 from awx.main.models.base import * # noqa
@@ -872,8 +872,8 @@ class UnifiedJob(PolymorphicModel, PasswordFieldsModel, CommonModelNameNotUnique
     def celery_task(self):
         try:
             if self.celery_task_id:
-                return TaskMeta.objects.get(task_id=self.celery_task_id)
-        except TaskMeta.DoesNotExist:
+                return TaskResult.objects.get(task_id=self.celery_task_id)
+        except TaskResult.DoesNotExist:
             pass
 
     def get_passwords_needed_to_start(self):
