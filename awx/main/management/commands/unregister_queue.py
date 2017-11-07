@@ -17,7 +17,7 @@ class Command(BaseCommand):
         "but jobs will no longer be processed by queue.")
 
     def add_arguments(self, parser):
-        parser.add_argument('--queuename', dest='queuename', type='string',
+        parser.add_argument('--queuename', dest='queuename', type=str,
                             help='Queue to create/update')
 
     @transaction.atomic

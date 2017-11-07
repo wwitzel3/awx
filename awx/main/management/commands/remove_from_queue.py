@@ -13,9 +13,9 @@ class Command(BaseCommand):
         "In order remove the queue, use the `unregister_queue` command.")
 
     def add_arguments(self, parser):
-        parser.add_argument('--queuename', dest='queuename', type='string',
+        parser.add_argument('--queuename', dest='queuename', type=str,
                             help='Queue to be removed from')
-        parser.add_argument('--hostname', dest='hostname', type='string',
+        parser.add_argument('--hostname', dest='hostname', type=str,
                             help='Host to remove from queue')
 
     def handle(self, *arg, **options):

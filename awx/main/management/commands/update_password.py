@@ -23,9 +23,9 @@ class UpdatePassword(object):
 
 class Command(BaseCommand):
     def add_arguments(self, parser):
-        parser.add_argument('--username', dest='username', action='store', type='string', default=None,
+        parser.add_argument('--username', dest='username', action='store', type=str, default=None,
                             help='username to change the password for')
-        parser.add_argument('--password', dest='password', action='store', type='string', default=None,
+        parser.add_argument('--password', dest='password', action='store', type=str, default=None,
                             help='new password for user')
 
     def handle(self, *args, **options):

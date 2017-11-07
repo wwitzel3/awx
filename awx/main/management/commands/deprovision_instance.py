@@ -22,9 +22,9 @@ class Command(BaseCommand):
     )
 
     def add_arguments(self, parser):
-        parser.add_argument('--hostname', dest='hostname', type='string',
+        parser.add_argument('--hostname', dest='hostname', type=str,
                             help='Hostname used during provisioning')
-        parser.add_argument('--name', dest='name', type='string',
+        parser.add_argument('--name', dest='name', type=str,
                             help='(PENDING DEPRECIATION) Hostname used during provisioning')
 
     @transaction.atomic

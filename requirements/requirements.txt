@@ -54,6 +54,7 @@ decorator==4.0.11         # via shade
 defusedxml==0.4.1         # via python-saml
 deprecation==1.0.1        # via openstacksdk
 django-auth-ldap==1.2.8
+django-celery-beat-1.1.0
 django-celery-results==1.0.1
 django-crum==0.7.1
 django-extensions==1.7.8
@@ -177,7 +178,7 @@ tempora==1.7              # via irc, jaraco.logging
 twilio==6.1.0
 twisted==16.6.0
 txaio==2.8.0              # via autobahn
-typing==3.6.1             # via m2crypto
+typing==3.6.2             # via m2crypto
 unicodecsv==0.14.1        # via cliff
 uwsgi==2.0.14
 warlock==1.2.0            # via python-glanceclient

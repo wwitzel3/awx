@@ -21,7 +21,7 @@ class Command(BaseCommand):
     )
 
     def add_arguments(self, parser):
-        parser.add_argument('--hostname', dest='hostname', type='string',
+        parser.add_argument('--hostname', dest='hostname', type=str,
                             help='Hostname used during provisioning')
 
     def _register_hostname(self, hostname):
