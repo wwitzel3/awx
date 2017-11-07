@@ -209,7 +209,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (  # NOQA
     'social.apps.django_app.context_processors.login_redirect',
 )
 
-MIDDLEWARE = (  # NOQA
+MIDDLEWARE_CLASSES = (  # NOQA
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
