@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
     help = 'Remove old jobs, project and inventory updates from the database.'
 
-    def add_argument(self, parser):
+    def add_arguments(self, parser):
         parser.add_argument('--days', dest='days', type='int', default=90, metavar='N',
                             help='Remove jobs/updates executed more than N days ago. Defaults to 90.')
         parser.add_argument('--dry-run', dest='dry_run', action='store_true',
@@ -221,7 +221,7 @@ class Command(BaseCommand):
         return skipped, deleted
 
     @transaction.atomic
-    def handle_args(self, *args, **options):
+    def handle(self, *args, **options):
         self.verbosity = int(options.get('verbosity', 1))
         self.init_logging()
         self.days = int(options.get('days', 90))

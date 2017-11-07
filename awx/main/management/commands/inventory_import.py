@@ -925,7 +925,7 @@ class Command(BaseCommand):
         self.inventory_update.license_error = True
         self.inventory_update.save(update_fields=['license_error'])
 
-    def handle_args(self, *args, **options):
+    def handle(self, *args, **options):
         self.verbosity = int(options.get('verbosity', 1))
         self.set_logging_level()
         self.inventory_name = options.get('inventory_name', None)

@@ -171,7 +171,7 @@ class Command(BaseCommand):
         parser.add_argument('--speed', dest='speed', type='int', metavar='s',
                             help='Speedup factor.')
 
-    def handle_args(self, *args, **options):
+    def handle(self, *args, **options):
         job_id = options.get('job_id')
         speed = options.get('speed') or 1
         verbosity = options.get('verbosity') or 0

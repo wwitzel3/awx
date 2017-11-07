@@ -60,7 +60,7 @@ class Command(BaseCommand):
             n_deleted_items += len(pks_to_delete)
         self.logger.log(99, "Removed %d items", n_deleted_items)
 
-    def handle_args(self, *args, **options):
+    def handle(self, *args, **options):
         self.verbosity = int(options.get('verbosity', 1))
         self.init_logging()
         self.days = int(options.get('days', 30))

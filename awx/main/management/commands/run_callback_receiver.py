@@ -155,7 +155,7 @@ class Command(BaseCommand):
     '''
     help = 'Launch the job callback receiver'
 
-    def handle_args(self, *arg, **options):
+    def handle(self, *arg, **options):
         with Connection(settings.BROKER_URL) as conn:
             try:
                 worker = CallbackBrokerWorker(conn)
