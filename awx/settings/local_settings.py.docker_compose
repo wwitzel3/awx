@@ -51,7 +51,7 @@ MANAGERS = ADMINS
 # Database settings to use PostgreSQL for development.
 DATABASES = {
     'default': {
-        'ENGINE': 'transaction_hooks.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'awx-dev',
         'USER': 'awx-dev',
         'PASSWORD': 'AWXsome1',
@@ -67,7 +67,7 @@ DATABASES = {
 if is_testing(sys.argv):
     DATABASES = {
         'default': {
-            'ENGINE': 'transaction_hooks.backends.sqlite3',
+            'ENGINE': 'django.db.backends.sqlite3',
             'NAME': os.path.join(BASE_DIR, 'awx.sqlite3'),
             'TEST': {
                 # Test database cannot be :memory: for celery/inventory tests.
@@ -191,7 +191,7 @@ EMAIL_SUBJECT_PREFIX = '[AWX] '
 LOGGING['handlers']['syslog'] = {
     'level': 'WARNING',
     'filters': ['require_debug_false'],
-    'class': 'django.utils.log.NullHandler',
+    'class': 'logging.NullHandler',
     'formatter': 'simple',
 }
 

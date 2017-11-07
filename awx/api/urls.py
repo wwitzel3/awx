@@ -9,14 +9,14 @@ from importlib import import_module
 
 
 def scoped_url(module):
-    def url(regex, view, kwargs=None, name=None, prefix=''):
+    def url(regex, view, kwargs=None, name=None):
         # Set default name from view name (if a string).
         if isinstance(view, six.string_types):
             if name is None:
                 name = view
             mod = import_module(module)
             view = getattr(mod, view)
-        return original_url(regex, view, kwargs, name, prefix)
+        return original_url(regex, view, kwargs, name)
     return url
 
 
