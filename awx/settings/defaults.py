@@ -410,6 +410,7 @@ DEVSERVER_DEFAULT_PORT = '8013'
 os.environ.setdefault('DJANGO_LIVE_TEST_SERVER_ADDRESS', 'localhost:9013-9199')
 
 BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_BROKER_URL = BROKER_URL
 CELERY_EVENT_QUEUE_TTL = 5
 CELERY_DEFAULT_QUEUE = 'tower'
 CELERY_TASK_SERIALIZER = 'json'
@@ -423,13 +424,13 @@ CELERYBEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
 CELERYBEAT_MAX_LOOP_INTERVAL = 60
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_IMPORTS = ('awx.main.scheduler.tasks',)
-CELERY_QUEUES = (
+CELERY_TASK_QUEUES = (
     Queue('default', Exchange('default'), routing_key='default'),
     Queue('tower', Exchange('tower'), routing_key='tower'),
     Queue('tower_scheduler', Exchange('scheduler', type='topic'), routing_key='tower_scheduler.job.#', durable=False),
     Broadcast('tower_broadcast_all')
 )
-CELERY_ROUTES = {'awx.main.scheduler.tasks.run_task_manager': {'queue': 'tower',
+CELERY_TASK_ROUTES = {'awx.main.scheduler.tasks.run_task_manager': {'queue': 'tower',
                                                                'routing_key': 'tower'},
                  'awx.main.scheduler.tasks.run_job_launch': {'queue': 'tower_scheduler',
                                                              'routing_key': 'tower_scheduler.job.launch'},
