@@ -39,7 +39,8 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 # Override django.template.loaders.cached.Loader in defaults.py
-TEMPLATE_LOADERS = (
+template = next((tpl_backend for tpl_backend in TEMPLATES if tpl_backend['NAME'] == 'default'), None) # noqa
+template['OPTIONS']['loaders'] = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 )

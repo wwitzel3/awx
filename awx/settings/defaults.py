@@ -41,7 +41,6 @@ def IS_TESTING(argv=None):
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 SQL_DEBUG = DEBUG
 
 ADMINS = (
@@ -194,20 +193,37 @@ CSRF_COOKIE_SECURE = True
 # Limit CSRF cookies to browser sessions
 CSRF_COOKIE_AGE = None
 
-TEMPLATE_CONTEXT_PROCESSORS = (  # NOQA
-    'django.contrib.auth.context_processors.auth',
-    'django.core.context_processors.debug',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'django.core.context_processors.tz',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.request',
-    'awx.ui.context_processors.settings',
-    'awx.ui.context_processors.version',
-    'social.apps.django_app.context_processors.backends',
-    'social.apps.django_app.context_processors.login_redirect',
-)
+TEMPLATES = [
+    {
+        'NAME': 'default',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'OPTIONS': {
+            'debug': DEBUG,
+            'context_processors': [# NOQA
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                'awx.ui.context_processors.settings',
+                'awx.ui.context_processors.version',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
+            ],
+            'loaders': [
+                'django.template.loaders.cached.Loader',
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+        },
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+    },
+]
 
 MIDDLEWARE_CLASSES = (  # NOQA
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -224,16 +240,6 @@ MIDDLEWARE_CLASSES = (  # NOQA
     'awx.main.middleware.URLModificationMiddleware',
 )
 
-TEMPLATE_DIRS = (
-    os.path.join(BASE_DIR, 'templates'),
-)
-
-TEMPLATE_LOADERS = (
-    ('django.template.loaders.cached.Loader', (
-        'django.template.loaders.filesystem.Loader',
-        'django.template.loaders.app_directories.Loader',
-    )),
-)
 
 ROOT_URLCONF = 'awx.urls'
 
