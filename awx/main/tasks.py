@@ -46,6 +46,7 @@ from crum import impersonate
 
 # AWX
 from awx import __version__ as awx_application_version
+from awx import celery_app
 from awx.main.constants import CLOUD_PROVIDERS, PRIVILEGE_ESCALATION_METHODS
 from awx.main.models import * # noqa
 from awx.main.models.unified_jobs import ACTIVE_STATES
@@ -2221,3 +2222,10 @@ class RunSystemJob(BaseTask):
 
     def build_cwd(self, instance, **kwargs):
         return settings.BASE_DIR
+
+
+celery_app.register_task(RunJob())
+celery_app.register_task(RunProjectUpdate())
+celery_app.register_task(RunInventoryUpdate())
+celery_app.register_task(RunAdHocCommand())
+celery_app.register_task(RunSystemJob())
