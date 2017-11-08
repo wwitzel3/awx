@@ -155,7 +155,8 @@ python-openid==2.2.5      # via python-social-auth
 python-openstackclient==3.11.0  # via python-ironicclient
 python-radius==1.0
 python-saml==2.2.1
-python-social-auth==0.2.21
+social-auth-core==1.5.0
+social-auth-app-django==2.0.0
 pytz==2017.3              # via babel, celery, irc, oslo.serialization, oslo.utils, tempora, twilio
 pyvmomi==6.5
 pyyaml==3.12              # via cliff, djangorestframework-yaml, os-client-config, oslo.config, psphere, python-ironicclient

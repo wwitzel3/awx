@@ -210,8 +210,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'awx.ui.context_processors.settings',
                 'awx.ui.context_processors.version',
-                'social.apps.django_app.context_processors.backends',
-                'social.apps.django_app.context_processors.login_redirect',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
             'loaders': [
                 'django.template.loaders.cached.Loader',
@@ -258,7 +258,7 @@ INSTALLED_APPS = (
     'channels',
     'polymorphic',
     'taggit',
-    'social.apps.django_app.default',
+    'social_django',
     'awx.conf',
     'awx.main',
     'awx.api',
@@ -307,11 +307,11 @@ AUTHENTICATION_BACKENDS = (
     'awx.sso.backends.LDAPBackend',
     'awx.sso.backends.RADIUSBackend',
     'awx.sso.backends.TACACSPlusBackend',
-    'social.backends.google.GoogleOAuth2',
-    'social.backends.github.GithubOAuth2',
-    'social.backends.github.GithubOrganizationOAuth2',
-    'social.backends.github.GithubTeamOAuth2',
-    'social.backends.azuread.AzureADOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.github.GithubOrganizationOAuth2',
+    'social_core.backends.github.GithubTeamOAuth2',
+    'social_core.backends.azuread.AzureADOAuth2',
     'awx.sso.backends.SAMLAuth',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -494,22 +494,22 @@ else:
     }
 
 # Social Auth configuration.
-SOCIAL_AUTH_STRATEGY = 'awx.sso.strategies.django_strategy.AWXDjangoStrategy'
-SOCIAL_AUTH_STORAGE = 'social.apps.django_app.default.models.DjangoStorage'
+SOCIAL_AUTH_STRATEGY = 'social_django.strategy.DjangoStrategy'
+SOCIAL_AUTH_STORAGE = 'social_django.models.DjangoStorage'
 SOCIAL_AUTH_USER_MODEL = AUTH_USER_MODEL  # noqa
 SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.social_auth.associate_by_email',
-    'social.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
     'awx.sso.pipeline.check_user_found_or_created',
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
     'awx.sso.pipeline.set_is_active_for_new_user',
-    'social.pipeline.user.user_details',
+    'social_core.pipeline.user.user_details',
     'awx.sso.pipeline.prevent_inactive_login',
     'awx.sso.pipeline.update_user_orgs',
     'awx.sso.pipeline.update_user_teams',

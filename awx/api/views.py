@@ -52,7 +52,7 @@ import qsstats
 import ansiconv
 
 # Python Social Auth
-from social.backends.utils import load_backends
+from social_core.backends.utils import load_backends
 
 from wsgiref.util import FileWrapper
 
