@@ -1100,7 +1100,7 @@ class UnifiedJob(PolymorphicModel, PasswordFieldsModel, CommonModelNameNotUnique
                     cancel_fields.append('job_explanation')
                 self.save(update_fields=cancel_fields)
                 self.websocket_emit_status("canceled")
-            if settings.BROKER_URL.startswith('amqp://'):
+            if settings.CELERY_BROKER_URL.startswith('amqp://'):
                 self._force_cancel()
         return self.cancel_flag
 

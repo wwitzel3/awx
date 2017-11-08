@@ -415,19 +415,18 @@ DEVSERVER_DEFAULT_PORT = '8013'
 # Set default ports for live server tests.
 os.environ.setdefault('DJANGO_LIVE_TEST_SERVER_ADDRESS', 'localhost:9013-9199')
 
-BROKER_URL = 'amqp://guest:guest@localhost:5672//'
-CELERY_BROKER_URL = BROKER_URL
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_EVENT_QUEUE_TTL = 5
-CELERY_DEFAULT_QUEUE = 'tower'
+CELERY_TASK_DEFAULT_QUEUE = 'tower'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_ACCEPT_CONTENT = ['json']
-CELERY_TRACK_STARTED = True
-CELERYD_TASK_TIME_LIMIT = None
-CELERYD_TASK_SOFT_TIME_LIMIT = None
-CELERYD_POOL_RESTARTS = True
-CELERYBEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
-CELERYBEAT_MAX_LOOP_INTERVAL = 60
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = None
+CELERY_TASK_SOFT_TIME_LIMIT = None
+CELERY_WORKER_POOL_RESTARTS = True
+CELERY_BEAT_SCHEDULER = 'celery.beat.PersistentScheduler'
+CELERY_BEAT_MAX_LOOP_INTERVAL = 60
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_IMPORTS = ('awx.main.scheduler.tasks',)
 CELERY_TASK_QUEUES = (
@@ -447,7 +446,7 @@ CELERY_TASK_ROUTES = {'awx.main.scheduler.tasks.run_task_manager': {'queue': 'to
                  'awx.main.tasks.purge_old_stdout_files': {'queue': 'default',
                                                            'routing_key': 'cluster.heartbeat'}}
 
-CELERYBEAT_SCHEDULE = {
+CELERY_BEAT_SCHEDULE = {
     'tower_scheduler': {
         'task': 'awx.main.tasks.awx_periodic_scheduler',
         'schedule': timedelta(seconds=30),

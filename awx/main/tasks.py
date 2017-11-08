@@ -1004,7 +1004,7 @@ class RunJob(BaseTask):
             env['TOWER_HOST'] = settings.TOWER_URL_BASE
             env['AWX_HOST'] = settings.TOWER_URL_BASE
             env['CALLBACK_QUEUE'] = settings.CALLBACK_QUEUE
-            env['CALLBACK_CONNECTION'] = settings.BROKER_URL
+            env['CALLBACK_CONNECTION'] = settings.CELERY_BROKER_URL
         env['CACHE'] = settings.CACHES['default']['LOCATION'] if 'LOCATION' in settings.CACHES['default'] else ''
         if getattr(settings, 'JOB_CALLBACK_DEBUG', False):
             env['JOB_CALLBACK_DEBUG'] = '2'
@@ -2055,7 +2055,7 @@ class RunAdHocCommand(BaseTask):
         env['ANSIBLE_LOAD_CALLBACK_PLUGINS'] = '1'
         env['ANSIBLE_STDOUT_CALLBACK'] = 'minimal'  # Hardcoded by Ansible for ad-hoc commands (either minimal or oneline).
         env['CALLBACK_QUEUE'] = settings.CALLBACK_QUEUE
-        env['CALLBACK_CONNECTION'] = settings.BROKER_URL
+        env['CALLBACK_CONNECTION'] = settings.CELERY_BROKER_URL
         env['ANSIBLE_SFTP_BATCH_MODE'] = 'False'
         env['CACHE'] = settings.CACHES['default']['LOCATION'] if 'LOCATION' in settings.CACHES['default'] else ''
         if getattr(settings, 'JOB_CALLBACK_DEBUG', False):
