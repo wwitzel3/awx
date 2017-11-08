@@ -322,7 +322,7 @@ class ListAPIView(generics.ListAPIView, GenericAPIView):
 
     def get_description_context(self):
         opts = self.model._meta
-        if 'username' in opts.get_all_field_names():
+        if 'username' in [f.name for f in opts.get_fields()]:
             order_field = 'username'
         else:
             order_field = 'name'
