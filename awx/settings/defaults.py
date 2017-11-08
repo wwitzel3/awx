@@ -435,16 +435,13 @@ CELERY_TASK_QUEUES = (
     Queue('tower_scheduler', Exchange('scheduler', type='topic'), routing_key='tower_scheduler.job.#', durable=False),
     Broadcast('tower_broadcast_all')
 )
-CELERY_TASK_ROUTES = {'awx.main.scheduler.tasks.run_task_manager': {'queue': 'tower',
-                                                               'routing_key': 'tower'},
-                 'awx.main.scheduler.tasks.run_job_launch': {'queue': 'tower_scheduler',
-                                                             'routing_key': 'tower_scheduler.job.launch'},
-                 'awx.main.scheduler.tasks.run_job_complete': {'queue': 'tower_scheduler',
-                                                               'routing_key': 'tower_scheduler.job.complete'},
-                 'awx.main.tasks.cluster_node_heartbeat': {'queue': 'default',
-                                                           'routing_key': 'cluster.heartbeat'},
-                 'awx.main.tasks.purge_old_stdout_files': {'queue': 'default',
-                                                           'routing_key': 'cluster.heartbeat'}}
+CELERY_TASK_ROUTES = {
+    'awx.main.scheduler.tasks.run_task_manager': {'queue': 'tower', 'routing_key': 'tower'},
+    'awx.main.scheduler.tasks.run_job_launch': {'queue': 'tower_scheduler', 'routing_key': 'tower_scheduler.job.launch'},
+    'awx.main.scheduler.tasks.run_job_complete': {'queue': 'tower_scheduler', 'routing_key': 'tower_scheduler.job.complete'},
+    'awx.main.tasks.cluster_node_heartbeat': {'queue': 'default', 'routing_key': 'cluster.heartbeat'},
+    'awx.main.tasks.purge_old_stdout_files': {'queue': 'default', 'routing_key': 'cluster.heartbeat'},
+}
 
 CELERY_BEAT_SCHEDULE = {
     'tower_scheduler': {

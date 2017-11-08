@@ -9,15 +9,12 @@ from awx.api.views import (
     JobTemplateLabelList,
     JobTemplateSurveySpec,
     InventoryInventorySourcesUpdate,
-    InventoryHostsList,
     HostInsights,
 )
 
 from awx.main.models import (
     Host,
 )
-
-from awx.main.managers import HostManager
 
 
 @pytest.fixture
