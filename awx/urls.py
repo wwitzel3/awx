@@ -20,3 +20,8 @@ urlpatterns = [
     url(r'^(?:api/)?404.html$', handle_404),
     url(r'^(?:api/)?500.html$', handle_500),
 ]
+
+handler400 = 'awx.main.views.handle_400'
+handler403 = 'awx.main.views.handle_403'
+handler404 = 'awx.main.views.handle_404'
+handler500 = 'awx.main.views.handle_500'
