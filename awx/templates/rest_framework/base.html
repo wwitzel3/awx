@@ -1,3 +1,4 @@
+{# Copy of base.html from rest_framework with minor AWX change. #}
 {% load staticfiles %}
 {% load i18n %}
 {% load rest_framework %}
@@ -158,8 +159,10 @@
               <div class="response-info" aria-label="{% trans "response info" %}">
                 <pre class="prettyprint"><span class="meta nocode"><b>HTTP {{ response.status_code }} {{ response.status_text }}</b>{% autoescape off %}{% for key, val in response_headers|items %}
 <b>{{ key }}:</b> <span class="lit">{{ val|break_long_headers|urlize_quoted_links }}</span>{% endfor %}
-
-</span>{{ content|urlize_quoted_links }}</pre>{% endautoescape %}
+{# Original line below had the side effect of also escaping content: #}
+{#   </span>{{ content|urlize_quoted_links }}</pre>{% endautoescape %}   #}
+{# For AWX, disable automatic URL creation and move content outside of autoescape off block. #}
+</span>{{ content }}</pre>{% endautoescape %}
               </div>
             </div>
 
