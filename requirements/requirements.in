@@ -1,6 +1,6 @@
 apache-libcloud==2.0.0
 appdirs==1.4.2
-asgi-rabbitmq=0.5.4
+asgi-rabbitmq==0.5.4
 asgiref==1.1.2
 azure==2.0.0rc6
 backports.ssl-match-hostname==3.5.0.1
@@ -34,6 +34,7 @@ ordereddict==1.1
 pexpect==4.2.1
 psphere==0.5.2
 psutil==5.2.2
+psycopg2==2.7.3.2
 pycrypto==2.6.1
 pygerduty==0.35.2
 pyOpenSSL==17.0.0
