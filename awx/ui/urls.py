@@ -1,13 +1,16 @@
 # Copyright (c) 2015 Ansible, Inc.
 # All Rights Reserved.
 
-from awx.api.urls import scoped_url
+from django.conf.urls import url, include
+from awx.ui.views import (
+    index,
+    portal_redirect,
+    migrations_notran,
+)
 
-
-url = scoped_url('awx.ui.views')
 
 urlpatterns = [ 
-    url(r'^$', 'index', name='index'),
-    url(r'^migrations_notran/$', 'migrations_notran', name='migrations_notran'),
-    url(r'^portal/$', 'portal_redirect', name='portal_redirect'),
+    url(r'^$', index, name='index'),
+    url(r'^migrations_notran/$', migrations_notran, name='migrations_notran'),
+    url(r'^portal/$', portal_redirect, name='portal_redirect'),
 ]
