@@ -419,6 +419,11 @@ def awx_periodic_scheduler(self):
     state.save()
 
 
+@shared_task(bind=True, queue='tower', base=LogErrorsTask)
+def memory_tracking(self):
+    pass
+
+
 def _send_notification_templates(instance, status_str):
     if status_str not in ['succeeded', 'failed']:
         raise ValueError(_("status_str must be either succeeded or failed"))

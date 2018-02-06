@@ -152,3 +152,8 @@ SERVICE_NAME_DICT = {
 # Used for sending commands in automatic restart
 UWSGI_FIFO_LOCATION = '/awxfifo'
 
+#CELERY_BEAT_SCHEDULE['memory_tracking'] = {
+#    'task': 'awx.main.tasks.memory_tracking',
+#    'schedule': timedelta(seconds=120),
+#    'options': {'expires': 110},
+#}
