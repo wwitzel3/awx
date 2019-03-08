@@ -318,6 +318,50 @@ class DashboardJobsGraphView(APIView):
         return Response(dashboard_data)
 
 
+class MetricsView(APIView):
+
+    view_name = _("Metrics")
+    swagger_topic = 'Metrics'
+    
+    renderer_classes = [renderers.PlainTextRenderer]
+                        # renderers.BrowsableAPIRenderer,  # TODO: Add back in
+                        # JSONRenderer]
+    
+    def get(self, request, format='txt'):
+        ''' Show Metrics Details '''
+        
+        # Temporary Imports
+        from awx.main.models.organization import UserSessionMembership
+        from django.contrib.sessions.models import Session
+        
+        # Add active/expired, or only query active sessions
+        total_sessions = Session.objects.all().count()
+        active_sessions = Session.objects.filter(expire_date__gte=now()).count()
+        
+        
+        user_sessions = UserSessionMembership.objects.all().count()
+        anonymous_sessions = total_sessions - user_sessions
+        expired_sessions = total_sessions - active_sessions
+        
+        # Placeholder data below for testing against Prometheus
+        # will ultimately reformat and re-use much of the analytics data
+        
+        data = []
+        data.append("# HELP awx_sessions_active counter A count of active sessions.")
+        data.append("# TYPE awx_sessions_active counter")
+        data.append("awx_sessions_active_sessions {0} ".format(str(total_sessions)))
+        data.append("# TYPE awx_sessions_websocket counter")
+        data.append("awx.sessions.anonymous_sessions {0} ".format(str(anonymous_sessions)))
+        data.append("# TYPE awx_sessions_api counter")
+        data.append("awx.sessions.api_sessions {0} ".format(str(user_sessions)))
+        data.append("# TYPE sessions.active_sessions counter")
+        data.append("awx.sessions.active_sessions {0}".format(str(active_sessions)))
+        data.append("# TYPE sessions.expired_sessions counter")
+        data.append("awx.sessions.expired_sessions {0}".format(str(expired_sessions)))
+        
+        return Response("\n".join(data))
+
+
 class InstanceList(ListAPIView):
 
     view_name = _("Instances")
