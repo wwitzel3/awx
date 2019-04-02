@@ -24,7 +24,6 @@ from awx.main.analytics import register
 
 
 SYSTEM_INFO = Info('awx_system_info', 'AWX System Information')
-
 TOTAL_SESSIONS = Guage('awx_active_sessions', 'Number of active session')
 CUSTOM_VENVS = Guage('awx_custom_virtualenvs', 'Number of virtualenvs')
 ORG_COUNT = Guage('awx_organizations', 'Number of organizations')

@@ -43,22 +43,4 @@ class MetricsView(APIView):
     
     def get(self, request, format='txt'):
         ''' Show Metrics Details '''
-        
-        # # Temporary Imports
-        from awx.main.models.organization import UserSessionMembership
-        from django.contrib.sessions.models import Session
-        
-        # Add active/expired, or only query active sessions
-        total_sessions = Session.objects.all().count()
-        
-        # Placeholder data below for testing against Prometheus
-        # will ultimately reformat and re-use much of the analytics data
-        
-        data = []
-        data.append("# HELP awx_sessions_active counter A count of active sessions.")
-        data.append("# TYPE awx_sessions_active counter")
-        data.append("awx_sessions_active_sessions {0} ".format(str(total_sessions)))
-
-        
-        # return Response(metrics().decode("utf-8"))
-        return Response("\n".join(data))
+        return Response(metrics())
